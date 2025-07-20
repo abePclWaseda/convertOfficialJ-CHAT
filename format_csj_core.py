@@ -3,8 +3,8 @@ import re
 from pathlib import Path
 
 # ====== 設定 ======
-IN_DIR = Path("/mnt/aoni01/db/CSJ/USB/MORPH/SDB/noncore/")
-OUT_DIR = Path("./data/CSJ/noncore")  # 出力ディレクトリ（必要に応じて変更）
+IN_DIR = Path("/mnt/aoni01/db/CSJ/USB/MORPH/SDB/core/")
+OUT_DIR = Path("./data/CSJ/core")  # 出力ディレクトリ（必要に応じて変更）
 OUT_DIR.mkdir(exist_ok=True)
 
 # 正規表現パターン
@@ -30,6 +30,9 @@ for sdb_path in sorted(IN_DIR.glob("D*.sdb")):
                 start, end = map(float, time_match.groups())
                 speaker = channel_map.get(chan_match.group(1), "?")
                 word = cols[7].strip()
+
+                if not word:  # 空文字列の場合はスキップ
+                    continue
 
                 transcript.append(
                     {
